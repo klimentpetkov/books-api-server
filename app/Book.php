@@ -2,7 +2,9 @@
 
 namespace App;
 
+use App\Notifications\BookPublished;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Notification;
 
 class Book extends Model
 {
@@ -14,6 +16,20 @@ class Book extends Model
     protected $fillable = [
         'title', 'description', 'image', 'user_id', 'category_id'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function($book) {
+            $readers = User::where([
+                ['role', '=', 'reader'],
+                ['receive_notifications', '=', '1']
+            ])->get();
+
+            Notification::send($readers, new BookPublished($book));
+        });
+    }
 
     /* Accessors & Mutators */
 

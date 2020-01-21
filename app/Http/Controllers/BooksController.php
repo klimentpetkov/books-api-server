@@ -2,12 +2,10 @@
 namespace App\Http\Controllers;
 
 use App\Book;
-use App\Notifications\BookPublished;
 use App\Rules\ValidBase64Image;
 use App\User;
 use App\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
 use Validator;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Constants;
@@ -53,18 +51,9 @@ class BooksController extends Controller
         $data['user_id'] = auth()->user()->id;
         $data['image'] = $imageName;
 
-        $book = Book::create($data);
-        if (!$book) {
+        if (!Book::create($data)) {
             return response()->json(['message' => Constants::RESOURCE_NOT_SAVED], Constants::STATUS_OK);
         }
-
-        // This have to work other way, but just for showing notifications will do for now
-        $readers = User::where([
-            ['role', '=', 'reader'],
-            ['receive_notifications', '=', '1']
-        ])->get();
-
-        Notification::send($readers, new BookPublished($book));
 
         return response()->json(['message' => Constants::RESOURCE_SAVED], Constants::STATUS_OBJECT_CREATED);
     }
