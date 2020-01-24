@@ -17,6 +17,7 @@ class Constants {
     const TOKEN_EXPIRED = 'Token is expired';
     const TOKEN_PROBLEM = 'Token has some problem';
     const ACCESS_DENIED = 'ACCESS DENIED';
+    const SUCCESSFULLY_LOGGED_OUT = 'Successfully logged out.';
 
     const STATUS_OK = 200;
     const STATUS_OBJECT_CREATED = 201;

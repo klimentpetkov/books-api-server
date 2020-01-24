@@ -7,7 +7,9 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Intervention\Image\Exception\ImageException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Windwalker\Structure\Format;
 
 class Handler extends ExceptionHandler
 {
@@ -52,13 +54,13 @@ class Handler extends ExceptionHandler
     {
         switch($e){
             case ($e instanceof MethodNotAllowedHttpException):
-                return response()->view('errors.method-not-allowed');
+                $message = $e->getMessage();
+                return response()->view('errors.method-not-allowed', compact('message'));
                 break;
+            case ($e instanceof NotFoundHttpException):
             case ($e instanceof RouteNotFoundException):
-                return response()->view('errors.route-not-found');
-                break;
-            case ($e instanceof AuthenticationException):
-                return response()->view('errors.unauthenticated');
+                $message =  'Such route ' . $request->getRequestUri() . ' do not exist!';
+                return response()->view('errors.route-not-found', compact('message'));
                 break;
             case ($e instanceof ImageException):
                 return response()->view('errors.image');

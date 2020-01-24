@@ -1,4 +1,4 @@
 {
-    "message": "Method not allowed! Use POST instead!"
+    "message": {{ $message }}
 }
 

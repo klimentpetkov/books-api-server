@@ -27,5 +27,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
         Passport::routes();
         Passport::personalAccessClient('BooksApiPac');
+        Passport::tokensExpireIn(now()->addminutes(15));
+        Passport::refreshTokensExpireIn(now()->addminutes(30));
     }
 }
