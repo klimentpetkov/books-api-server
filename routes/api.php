@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');
+//Route::post('logout', 'AuthController@logout');
+
 Route::get('image/{image}', 'ImageController@show');
 
 Route::group(['middleware' => 'auth:api'], function() {

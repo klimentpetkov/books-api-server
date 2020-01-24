@@ -104,10 +104,7 @@ Then run postman and inside try the routes:
 <p> &nbsp;</p>
 <code>
 {
-    "success": {
-        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYmQyZmY3ZmIxMzdkZjZiNGQ5MjRlZTJiNDllODE2ODNkNWYzNDYzMWNhYjY5Y2MwMzdhNTViZTQ5MzJlZTM1NTZiNDVkNDAxZDk5NDVkODkiLCJpYXQiOjE1NzkxNjg4MzUsIm5iZiI6MTU3OTE2ODgzNSwiZXhwIjoxNjEwNzkxMjM0LCJzdWIiOiI4Iiwic2NvcGVzIjpbXX0.O2zk3xl7MZ0kpzWcNX9PCz1_X_40srqu2VrZAfWUIfwETPsCrRRp_GZCeLsezZzsOOJYapZTR_piyYtsP5fq_z4UcrYfW7scy7wE3Rhip2XUexQKhvzQJvkkOl__3q-3jCU1j5XCIXH8ANzWwfo8UyPhYfcvI1Kq8WfGw1tWcV8NToqDUA9krfQlFqsz5TIRkBE2ps5ukuI-wqy5UoSlI-MTnhJgMUYUdilqQQKSOofhhX-4_yhk7-0sxfbnsbNx5ny16BJHYJ_jKWtPSdoKdh4hJNJPvKnVxqM7eOyUd1JtkJvr_gAGhpoNInrcsUC_8dXKc5aPCJvkbGItjW5HBMVCXOIoK9y_0xbxYr1iltnl4HtiCpYxX7SRfqpYMMBeFo05AGYZX1wQ45Lq0xzDJ6xbU5-38xgSrXcVwF5A-MZ9nsB_5_zB4ME1xkjCC08B3i4jqdvhIivnMtiLlagnEeX6BTJF_P3jsv-E4i_L9cVKTAbcCvMQic-xSQMW6cqeOlECRH8dgwvCrVAz--nAJAffp0AY-lEvgsPdq9R64K_pA6P7rRpYn_mGSSUw_RXZO85zI5QktHdfii3GJjD__XH2YcguUVOp142nyS_k3ukHX6qD21fniH_X6LOxccoHiixLkAnYtvgJw6_yyhs899j8CIINArs67KNqLbI1Bbg",
-        "name": "_registered_name_"
-    }
+    "message": "Successfully created user!"
 }
 </code>
 
@@ -142,6 +139,7 @@ Then run postman and inside try the routes:
     <tr><td>key</td><td>value</td></tr>
     <tr><td>email</td><td>_email_</td></tr>
     <tr><td>password</td><td>_password_</td></tr>
+    <tr><td>remember_me</td><td>0 / 1 (optional paramter)</td></tr>
 </table>
 
 <p> &nbsp;</p>
@@ -150,16 +148,16 @@ Then run postman and inside try the routes:
 <p> &nbsp;</p>
 <code>
 {
-    "success": {
-        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNGZkOWYxMTdmNTk0NmY5Y2Q4NzMzYzk4ODQxNmRjOWUxYzZhOGVlYWJkOGZlNTJjYzQzODk3OTk5NTE0OTY3ZGU3NTkyOWZlM2ZiNWQ0MmYiLCJpYXQiOjE1NzkxNzA3NzUsIm5iZiI6MTU3OTE3MDc3NSwiZXhwIjoxNjEwNzkzMTc1LCJzdWIiOiI4Iiwic2NvcGVzIjpbXX0.feLNMwcTNP1mHHs-B-ULe7CtfNEXjcay7byrgurRatre22wrourvudkGSlwb2Ni8-45u25dINGfaDIMbj9_kwIeJlSrbKqyfBKJBI9KFKZWvmr704iAfuNet05UEhJXbavq-KW94PcKojKaxLeFY5JF3AlR404tcixLWpA7n9FURY8_v2ha_LfAx7Ne6VuEUUULDropoXM-StHTKD33EVskqHM7gsSaLLiIbAe-gmzJ3EU5LxrjJQAZ8lqR4bVPQ-dkQm5iWUa9THg_TPLa77yBXU-VVmJ4F252GTZwpGyeVAQneYTv1XE9OmUka-cOWCkjyz0eGl-6N9p4t97U_6vAW9thoudS1CfEYPCGBRv2sW8C54K1rEVAT6NPefteDqni9YUWCdA_YBgwp56NIVNHhknZ4XMVZvUYgM5wdzKjgl3gK2IHNjcz-TyWxfWrmjyly6-7MylloAJi3RiOuAAhnNPlYDhJeQDlfJaFxt_eERkqEyAd9WfbeFgGaaetrcgVLTZ1prNYY88SRrUEQw1DumyO9XTDV-_NiXgVcBY_ic2UbT4HheEo9xVab3pxUULyhW69Y4jCGMa7PKyXwwnTQAW1vVLyfnlhL-d1O82IqiuRP04hJ5aeJ9jSpPLtcPBKiCGrWl-fxfzk3xneSgKdgojBdsgB5gxXAoTasYCY"
-    }
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiY2JiNTFmOWRlOGMxMTRmMmEyNDVhZWNlZWI1MGQwYjcwZGQyYzJkMDY1NjI0OTQ4MzliZTA5OTY2YzI1MjZkOTM1ZDRhMDcwNTk2NWVhOTciLCJpYXQiOjE1Nzk4Njc3MTcsIm5iZiI6MTU3OTg2NzcxNywiZXhwIjoxNjExNDkwMTE3LCJzdWIiOiIxNyIsInNjb3BlcyI6W119.D4mxCRFAOW0avfGpzGKnFyx2teNAlNrc-EJw2ovF5tU7fMMvX94VoT-6tSXSbR3VU2oQYujOsj-NxkP_FKurUNVYsPxrdacaEY6P4XjLyMGF62Vc_TAuCyUwVGhbizZNE5NduoZaqu1liC_kupOCf4FYu_lFtF74RJgcwejdctUVT-IySMesPDC0VuqYmyMfK8qPDyzLsGH2wyagSEkRwpjpiyINnAkVxa3I6OhrQERJAFQpfMWwafj_ln4fVWPgTQBagXTbofvJGNMiNhovtRqUYSfCAln5yr8gPVnf2sMVCcNl8S5ZpNviqf00bOAyjKzDLAIG4dcI8t8a9jeb4ivI0VpDflCRXYOjJlYQYIIjcM-8G_si1X3c9kijbb0aM0TD0Dm2ROwdESLj9zMcjpRLrqRMKJV-Tw9NvAqRmdeOMglaDsvZwoSvyvIuRCJct6MwD18b5wQxbFNKG-P-xV6RrrvH3O24p-zyl6FDCEPQ46jmPWFO5QiVfqCyG1GVh6MzTyUjmguM8v12j1HRqEj8riJZmxi1sKyqMWLeRoCtssquEW1_fn2xDUjEKYw5f3iesJm1FrT325zPoW093-ZD1rTfuFGylCyMcVpYFhhWHsc8OsdBkOgptOu7pkljf5eEyDxgP088mwK_PD6d1UyyiNrejpKj3JHTINvKLdw",
+    "token_type": "Bearer",
+    "expires_at": "2021-01-24 12:08:37"
 }
 </code>
 
 ###### If some or both of credentials are wrong, the response will give status of 401 and will be
 <code>
 {
-    "error": "Unauthorized"
+    "message": "Unauthorized"
 }
 </code> 
 

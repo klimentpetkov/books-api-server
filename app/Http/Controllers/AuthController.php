@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\User;
 use illuminate\SUpport\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\Passport;
 use Validator;
 use App\Constants;
 
@@ -58,7 +59,6 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-//        dd($request);
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
@@ -66,18 +66,16 @@ class AuthController extends Controller
         ]);
 
         $credentials = request(['email', 'password']);
-//        dd($request->user());
+
         if(!Auth::attempt($credentials)) {
             return response()->json([
                 'message' => Constants::UNAUTHORIZED
             ], Constants::STATUS_UNAUTHORIZED);
         }
-//        dd($request->user());
-        $user = $request->user();
-//        dd($user);
 
+        $user = $request->user();
         $tokenResult = $user->createToken('BooksAPI');
-//        dd($tokenResult);
+
         $token = $tokenResult->token;
 
         if ($request->remember_me)
@@ -88,21 +86,25 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
-            'created_at' =>  $tokenResult->token->created_at,
+//            'created_at' =>  $tokenResult->token->created_at,
             'expires_at' => Carbon::parse(
                 $tokenResult->token->expires_at
             )->toDateTimeString()
         ]);
     }
 
-    public function logout(Request $request)
-    {
-        $request->user()->token()->revoke();
-
-        return response()->json([
-            'message' => Constants::SUCCESSFULLY_LOGGED_OUT
-        ]);
-    }
+    /**
+     * Logout a logged user
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+//    public function logout(Request $request)
+//    {
+//        $request->user()->token()->revoke();
+//        return response()->json([
+//            'message' => Constants::SUCCESSFULLY_LOGGED_OUT
+//        ]);
+//    }
 
     /**
      * Get the authenticated user
