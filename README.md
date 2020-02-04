@@ -62,8 +62,8 @@ restricts books access for every single request.
 3) Run <b>composer install</b> to install all project dependencies<br>
 4) Create and seed the database <b>php artisan migrate:fresh --seed</b><br>
 5) Run <b>php artisan passport:keys --force</b> (In case of auth problems try <b>php artisan passport:install</b>)
-6) Run <b>php artisan passport:client --personal</b> and set for name BooksApiPac
-7) Run <b>php artisan storage:link</b>
+6) Run <b>php artisan passport:client --password</b> and set for name BooksApiPac
+8) Run <b>php artisan storage:link</b>
 
 <p>&nbsp;</p>
 Here are the routes that navigate the API - run: <b>php artisan routes:list</b>
@@ -139,7 +139,6 @@ Then run postman and inside try the routes:
     <tr><td>key</td><td>value</td></tr>
     <tr><td>email</td><td>_email_</td></tr>
     <tr><td>password</td><td>_password_</td></tr>
-    <tr><td>remember_me</td><td>0 / 1 (optional paramter)</td></tr>
 </table>
 
 <p> &nbsp;</p>
@@ -148,18 +147,20 @@ Then run postman and inside try the routes:
 <p> &nbsp;</p>
 <code>
 {
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiY2JiNTFmOWRlOGMxMTRmMmEyNDVhZWNlZWI1MGQwYjcwZGQyYzJkMDY1NjI0OTQ4MzliZTA5OTY2YzI1MjZkOTM1ZDRhMDcwNTk2NWVhOTciLCJpYXQiOjE1Nzk4Njc3MTcsIm5iZiI6MTU3OTg2NzcxNywiZXhwIjoxNjExNDkwMTE3LCJzdWIiOiIxNyIsInNjb3BlcyI6W119.D4mxCRFAOW0avfGpzGKnFyx2teNAlNrc-EJw2ovF5tU7fMMvX94VoT-6tSXSbR3VU2oQYujOsj-NxkP_FKurUNVYsPxrdacaEY6P4XjLyMGF62Vc_TAuCyUwVGhbizZNE5NduoZaqu1liC_kupOCf4FYu_lFtF74RJgcwejdctUVT-IySMesPDC0VuqYmyMfK8qPDyzLsGH2wyagSEkRwpjpiyINnAkVxa3I6OhrQERJAFQpfMWwafj_ln4fVWPgTQBagXTbofvJGNMiNhovtRqUYSfCAln5yr8gPVnf2sMVCcNl8S5ZpNviqf00bOAyjKzDLAIG4dcI8t8a9jeb4ivI0VpDflCRXYOjJlYQYIIjcM-8G_si1X3c9kijbb0aM0TD0Dm2ROwdESLj9zMcjpRLrqRMKJV-Tw9NvAqRmdeOMglaDsvZwoSvyvIuRCJct6MwD18b5wQxbFNKG-P-xV6RrrvH3O24p-zyl6FDCEPQ46jmPWFO5QiVfqCyG1GVh6MzTyUjmguM8v12j1HRqEj8riJZmxi1sKyqMWLeRoCtssquEW1_fn2xDUjEKYw5f3iesJm1FrT325zPoW093-ZD1rTfuFGylCyMcVpYFhhWHsc8OsdBkOgptOu7pkljf5eEyDxgP088mwK_PD6d1UyyiNrejpKj3JHTINvKLdw",
     "token_type": "Bearer",
-    "expires_at": "2021-01-24 12:08:37"
+    "expires_in": 900,
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiOGQ4MDdhY2ZlYzdkZDhiNzU3Yzc2OGYwNDU1NmFkZjBhYTcxYjFhMTZiODYyMmU1NjU2Yzc3N2ZlZjQzZTVjZjQ3ZDgzZWU1MjRlNWU0ZTIiLCJpYXQiOjE1ODA1NjU0ODcsIm5iZiI6MTU4MDU2NTQ4NywiZXhwIjoxNTgwNTY2Mzg3LCJzdWIiOiI2Iiwic2NvcGVzIjpbXX0.pIgIJ_LdQkYMirKRUhg_Oj-_PtLPtaA0dOWUb6Szi0HWb8frnqV-z8H_FzrqKEQnoTsJEmiHCECaf9ByBc7bz3ZBeBOn9pwhtgDhyKv3n9JuyTRoU8lXCVT3qxu-ZNKFOERjff0IAKe6m7tPT_DiZcol-JgQ7Qc0YI_8XWQgVYWFVEU1cWG9oXccc6kUlRL6G5v4NYUQ1nwV7vdZt0Bot_IOzpN-f898kp1K7qZ5W_GFEkXV8eda_QxPgi65MC4XhRuKNo5a1m-R5UmiI2B0hJ8r2ZH62ECbWXEpi5u35XCUqzp4smtFXv_nUEwkIDZ44msOlV4_l6scGfDUDDHA6hfiUfCoa8pMCLrLGXm3kWKh5XZaDuEdg-irir_3MA3rfKbVcWaWuJUKiCI5zIQ6cOsPEBp9gHfGSYdkgJ7l99wcsQQBvRnlrRSk_u8sDh72YsBc8oOa1Z5vxxk9AnxR5hJ9tgqKy6_smghfM9RTFL2OLJdxU9j-J-Iq7smn0-xNrP4JylJ9Z6iQaf_wUkaP7vlH0JxfdXHWn77Na8hii886WOpQAVuUbiCfwNDmzHRKZCCO6xJ238_iV4HvCyPCQ4eAEt3rz_pDcTtOT60szxEjpHSxpRw-Cr0NLXJud5BSuXwDwhjDdbl3SvbclDY1IcgpZNEsGFVQXlST-mT_rSc",
+    "refresh_token": "def50200128cdab05ecc6285bba4394220c982fff089a1afa9bb3da13759e4f03a866f6a5028a05e1f108f7d636d7da2b36b3e13a92eec8dcef0a18913434175d308d043c6e229d20beec8d747ed0236150f39b71e768215231183cad3bbad1bdeb6fedd481eff700d437ded9f78ab44690a0d235b7950eb0e8bd31c4f5e01a31b2644451e77768af08ce822d2710d0525847ff6454da98226019079c61fb93367848274960d7d9e8cfe47c5c972b37ad271751737411938036ecb283c87c028263822c92d730df3ba0b480ef5dfa40f704aa59c10c369bd46160a2c746373b386c559292d397c21ff4a2bb7958ac7a36253cdae0288cce861a3d5f7ee40152dd1fdb23ce0ac48ee5c9ad9b98efd9cb87ba3529c4bbc2adddd23f7d63e1a96c5b68ad16c0086503c9e0a7d854a84bd412b7a9e6b69f0b7e5ccfd0cf1b8f878abc521396e462a28b685c905679465ed6f6a7e73c6e5601c4d638485f2f689e70189"
 }
 </code>
 
-###### If some or both of credentials are wrong, the response will give status of 401 and will be
-<code>
+###### If some or both of credentials are wrong or missing, the response will give status of 401 and will be
 {
-    "message": "Unauthorized"
+    "error": "invalid_grant",
+    "error_description": "The provided authorization grant (e.g., authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.",
+    "hint": "",
+    "message": "The provided authorization grant (e.g., authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client."
 }
-</code> 
 
 <p>&nbsp;</p>
 
@@ -192,6 +193,52 @@ Then run postman and inside try the routes:
         "created_at": "2020-01-16 10:00:34",
         "updated_at": "2020-01-16 10:00:34"
     }
+}
+</code>
+
+<p>&nbsp;</p>
+
+> RefreshToken http://127.0.0.1:8000/api/refresh-token
+
+<p>&nbsp;</p>
+
+###### Method: <b>POST</b>
+
+<p>&nbsp;</p>
+
+###### Headers:
+<table>
+    <tr><td>key</td><td>value</td></tr>
+    <tr><td>Accept</td><td>application/json</td></tr>
+</table>
+
+<p>&nbsp;</p>
+
+###### Params (Body->form-data:
+<table>
+    <tr><td>key</td><td>value</td></tr>
+    <tr><td>referesh_token</td><td>def50200084a769984221cc896b934c1d6c7a21b3746efcf833a1260f6e0a8aed94cc9b1abb590fd4b91b25aec59ab43328c9c6afe906892f710cd8b20a2be34f75df5d10947a49550b6f21ddf7b358843116d9ca07e49289c109eb4fc21ee220d28cb89f70d1f282fe99a67d2481082d244266748e29c5a0f33180b8337db1ade74f52bb7344e69b0da8212c6583cbfe851978e8726f0eb84e0011848e8b67124949d19988150749611b8855109d07007fadcc81c71c9333e93baca907e8f013b93c4c1469a23f7cd041b5b23a3c70ab719ec81e05ebbd0a952abe85e8df5a6bfc3d8af6d0619dfecfe0d849d3ceeb280e3e8e6f4ba2cefe05b739a0619c7808c13765e5a105285b9c572b45df1532ad9dfc03d120e1ec7ba5ac59c868dee53e6bf8acb0d7709858dbcd8783fd616c3e102b37228d7747f620fcc0009b5677960dbcca3f1c767bf07a5e6d07820ffab85754a7264956de59b80745004789659c9</td></tr>
+</table>
+
+<p> &nbsp;</p>
+
+###### A new access and refresh tokens are issued
+<code>
+{
+    "token_type": "Bearer",
+    "expires_in": 900,
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiM2Y2M2EwY2ZkZjA0ODQ4YTMzMWIyYzVmMjAzM2ZiMjE4MDE0OGEzY2RmNTQ2MDMwMzRkYWVjMzllYWVjMjk0NjVjZjM0ODE1MTc4ZjJhNWYiLCJpYXQiOjE1ODA1NjY1MTUsIm5iZiI6MTU4MDU2NjUxNSwiZXhwIjoxNTgwNTY3NDE1LCJzdWIiOiI2Iiwic2NvcGVzIjpbXX0.jpDeGTi2rTrkzgG26I5DmB-gMRZdKuIZXIBN3CbJmRoUU859jnK5DZhSILvxAO-gxz_sLIZo-bWTAb0e6Na5AJ8nk8dCkU1OG4a1iM6y2V1IJ0AtscIxvuOtvYDIfZRNHIe9gL8wMGu0kAoUnuknd4glYiFMD7vBXvryaOJu8PWvhq6LVFweLXE5e1lyO3AvEod7ggl4sk3qz-ZgZoJwwMaeD_BJ0GLFUEnvx5vrzVDw0TC5IObDFGA2F4NPwuyWiceH6msH_ey2APwg7jQBl25JQk_AZKmXrsqIs5vUaoTijy6GRlOrB7IWTMN8gqk5N9G9WyCE-UPzjuiPTQnofVcV89oT0ZtRdg8P-dn12vuOl7ySpKAf8GJ4ZLpdwq_RfX6diTsvsTWbQHtztBio5j9u99wcNiGUy5UbqTk72F5hLFsK8gBtprU88ZWY2dmolC59dVKkxBhW2b_pTaU-szSbIkxsJ2dI-xSKqsvEKXGsf_NR4obMzQVCsmCxn9MRSz1pdIo92n-8o5KBfWCbBmvDTWtNjN7j-d7hfi0bS5I1Ec8i2BJsElk5eR6H87ed5VhM4Ww5yBCilnBDDrx3VwgOsnU9SqTvNjvzomlaIgBBn7FsCv-nNOSFxWZSzNc-A97kNscAt5d3_y9XestaXphS2EbET5BnamjIsWEbic8",
+    "refresh_token": "def502003b4fb86d8bcb633fbed9de8c6be36ed541c41947094b216e2ce1411df234ee712efcb4e814765c24907b6399100f6f73ee6cd96fc6edc55169b57abd5fe4dcba80a68ed4ca4a77bf15c382e3b618a2d0deec209d1d8cf94aa8026732407edc19a48e9adffdffd1a139ab3f872e912cb41976a5d54a99e61be2aa409e14ed95f047e21896e910ae98c7ee604db7b40fd2036a7b105e2956cad3e6ce705a867bf73005e59fbf095e80d6ad82ac07648fe1e451a4079b7b33410290ce1d828a66596fed86590b887a532ced3cf4513e99f8f74583a44dd6a2a4755f65876589b926d9f9793fa99b4bcc0a7f206cca80ef9ba16e82326c518969c78755d5c5abf27e22548029dbdedbef8804972b5f6ffd2bb166ae688fe3bfe593e6133a3f0324b09dd42af478983284b4fa95401cc99f0de276324af4637d9299f666a89e8c76baa351356ccaed6456d8a6e22bc3803c8420063cdcd16b33a4a0607555d1"
+}
+</code>
+
+###### If wrong or missing parameters passed then the result is similar to 
+<code>
+{
+    "error": "invalid_request",
+    "error_description": "The refresh token is invalid.",
+    "hint": "Token is not linked to client",
+    "message": "The refresh token is invalid."
 }
 </code>
 

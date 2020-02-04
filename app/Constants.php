@@ -18,6 +18,8 @@ class Constants {
     const TOKEN_PROBLEM = 'Token has some problem';
     const ACCESS_DENIED = 'ACCESS DENIED';
     const SUCCESSFULLY_LOGGED_OUT = 'Successfully logged out.';
+    const WRONG_CREDENTIALS = "Wrong credentials passed";
+    const NO_PASSWORD_CLIENT_SET = "There is no Password Client set to finish authentication!";
 
     const STATUS_OK = 200;
     const STATUS_OBJECT_CREATED = 201;

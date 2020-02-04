@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 
 Route::post('login', 'AuthController@login');
 Route::post('register', 'AuthController@register');
+Route::post('refresh-token', 'AuthController@refreshToken');
 //Route::post('logout', 'AuthController@logout');
 
 Route::get('image/{image}', 'ImageController@show');

@@ -3,16 +3,32 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Exception\BadResponseException;
 use Illuminate\Http\Request;
 use App\User;
 use illuminate\SUpport\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Laminas\Diactoros\ServerRequest;
+use Laravel\Passport\Http\Controllers\AccessTokenController;
 use Laravel\Passport\Passport;
+use Laravel\Passport\TokenRepository;
+use League\OAuth2\Server\AuthorizationServer;
+use Psr\Http\Message\ServerRequestInterface;
+use Lcobucci\JWT\Parser as JwtParser;
 use Validator;
 use App\Constants;
 
-class AuthController extends Controller
+class AuthController extends AccessTokenController
 {
+    public function __construct(AuthorizationServer $server,
+                                TokenRepository $tokens,
+                                JwtParser $jwt)
+    {
+        parent::__construct($server, $tokens, $jwt);
+    }
+
     /**
      * API Register
      * @param Request $request
@@ -31,9 +47,6 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], Constants::STATUS_UNAUTHORIZED);
         }
-
-//        $input = $request->all();
-//        $input['password'] = Hash::make($input['password']);
 
         $receiveNotifications = $request->has('receive_notifications') ? $request->receive_notifications : "0";
 
@@ -57,57 +70,84 @@ class AuthController extends Controller
      * Login user and create token
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+//    public function login(Request $request)
+    public function login(ServerRequestInterface $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-            'remember_me' => 'boolean'
-        ]);
+        $parsedBody = $request->getParsedBody();
+        $client = $this->getClient();
 
-        $credentials = request(['email', 'password']);
-
-        if(!Auth::attempt($credentials)) {
+        if (is_null($client))
             return response()->json([
-                'message' => Constants::UNAUTHORIZED
-            ], Constants::STATUS_UNAUTHORIZED);
-        }
+                'message' => Constants::NO_PASSWORD_CLIENT_SET
+            ], Constants::STATUS_BAD_REQUEST);
 
-        $user = $request->user();
-        $tokenResult = $user->createToken('BooksAPI');
+        $parsedBody['username'] = isset($parsedBody['email']) ? $parsedBody['email'] : '';
+        $parsedBody['grant_type'] = 'password';
+        $parsedBody['client_id'] = $client->id;
+        $parsedBody['client_secret'] = $client->secret;
 
-        $token = $tokenResult->token;
+        // since it is not required by passport
+        unset($parsedBody['email'], $parsedBody['client_name']);
 
-        if ($request->remember_me)
-            $token->expires_at = Carbon::now()->addWeeks(1);
-
-        $token->save();
-
-        return response()->json([
-            'access_token' => $tokenResult->accessToken,
-            'token_type' => 'Bearer',
-//            'created_at' =>  $tokenResult->token->created_at,
-            'expires_at' => Carbon::parse(
-                $tokenResult->token->expires_at
-            )->toDateTimeString()
-        ]);
+        return parent::issueToken($request->withParsedBody($parsedBody));
     }
 
     /**
-     * Logout a logged user
-     * @param Request $request
+     * Get active password client for issuing tokens
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|object|null
+     */
+    private function getClient()
+    {
+        return DB::table('oauth_clients')
+            ->where([
+                    ['password_client', 1],
+                    ['revoked', 0]
+                ]
+            )
+            ->first();
+    }
+
+    /**
+     * Loggs out a current authentiacted user
+     * @param ServerRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-//    public function logout(Request $request)
-//    {
-//        $request->user()->token()->revoke();
-//        return response()->json([
-//            'message' => Constants::SUCCESSFULLY_LOGGED_OUT
-//        ]);
-//    }
+    /*public function logout(ServerRequest $request)
+    {
+        $client = $this->getClient();
+        $token = auth()->user()
+            ->tokens
+            ->where('client_id', $client->id)
+            ->first();
+
+        abort_if(is_null($token), 400, 'Token for the given client name does not exist');
+
+        $token->delete();
+
+        return response()->json('Logged out successfully', 200);
+    }*/
+
+    /**
+     * Refreshes the access and refresh tokens by a given refresh token
+     * @param ServerRequestInterface $request
+     * @return \Illuminate\Http\Response
+     */
+    public function refreshToken(ServerRequestInterface $request)
+    {
+        $parsedBody = $request->getParsedBody();
+
+        $client = $this->getClient();
+
+        $parsedBody['grant_type'] = 'refresh_token';
+        $parsedBody['client_id'] = $client->id;
+        $parsedBody['client_secret'] = $client->secret;
+
+        return parent::issueToken($request->withParsedBody($parsedBody));
+    }
 
     /**
      * Get the authenticated user
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function details(Request $request)
