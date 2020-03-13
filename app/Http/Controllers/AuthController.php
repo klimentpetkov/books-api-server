@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use DemeterChain\C;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\BadResponseException;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ use Laravel\Passport\TokenRepository;
 use League\OAuth2\Server\AuthorizationServer;
 use Psr\Http\Message\ServerRequestInterface;
 use Lcobucci\JWT\Parser as JwtParser;
+use Symfony\Component\HttpFoundation\Response;
 use Validator;
 use App\Constants;
 
@@ -45,7 +47,7 @@ class AuthController extends AccessTokenController
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], Constants::STATUS_UNAUTHORIZED);
+            return response()->json(['error' => $validator->errors()], Response::HTTP_UNAUTHORIZED);
         }
 
         $receiveNotifications = $request->has('receive_notifications') ? $request->receive_notifications : "0";
@@ -62,8 +64,8 @@ class AuthController extends AccessTokenController
         ]);
 
         return response()->json([
-            'message' => 'Successfully created user!'
-        ], Constants::STATUS_OBJECT_CREATED);
+            'message' => Constants::USER_CREATED_SUCCESSFULLY
+        ], Response::HTTP_CREATED);
     }
 
     /**
@@ -79,7 +81,7 @@ class AuthController extends AccessTokenController
         if (is_null($client))
             return response()->json([
                 'message' => Constants::NO_PASSWORD_CLIENT_SET
-            ], Constants::STATUS_BAD_REQUEST);
+            ], Response::HTTP_BAD_REQUEST);
 
         $parsedBody['username'] = isset($parsedBody['email']) ? $parsedBody['email'] : '';
         $parsedBody['grant_type'] = 'password';

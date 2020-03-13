@@ -24,5 +24,5 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::post('me', 'AuthController@details'); // user profile
     Route::get('categories', 'CategoriesController@index')->name('categories.index');
     Route::get('books', 'BooksController@index')->name('books.index');
-    Route::post('books/publish', 'BooksController@create')->name('books.publish')->middleware('checkAccess');
+    Route::post('books/publish', 'BooksController@store')->name('books.publish');//->middleware('checkAccess');
 });

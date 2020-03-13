@@ -10,6 +10,7 @@ class Constants {
     const RESOURCE_NOT_FOUND = 'The resource does not exist';
     const RESOURCE_DELETED = 'Resource deleted successfully';
     const USER_LOGGED_OUT = 'User logged out';
+    const USER_CREATED_SUCCESSFULLY = 'Successfully created user!';
     const UNATHENTICATED = 'Unauthenticated';
     const UNAUTHORIZED = 'Unauthorized';
     const LOCATION_NOT_FOUND = 'No such location';
@@ -20,15 +21,4 @@ class Constants {
     const SUCCESSFULLY_LOGGED_OUT = 'Successfully logged out.';
     const WRONG_CREDENTIALS = "Wrong credentials passed";
     const NO_PASSWORD_CLIENT_SET = "There is no Password Client set to finish authentication!";
-
-    const STATUS_OK = 200;
-    const STATUS_OBJECT_CREATED = 201;
-    const STATUS_NO_CONTENT = 204;          //Action executed properly but no content to return
-    const STATUS_PARTIAL_CONTENT = 206;     // Paginated lists
-    const STATUS_BAD_REQUEST = 400;         // Validation failed
-    const STATUS_UNAUTHORIZED = 401;        // User need to be authenticated;
-    const STATUS_FORBIDDEN = 403;           // Authenticated, but does not have permission to perform the action
-    const STATUS_NOT_FOUND = 404;           // Resource is not found
-    const STATUS_SERVER_ERROR = 500;        // Server error. If something unexpectedly breaks
-    const STATUS_SERVICE_UNAVAILABLE = 503; //
 }

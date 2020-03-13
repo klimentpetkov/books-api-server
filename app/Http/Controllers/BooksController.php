@@ -6,6 +6,7 @@ use App\Rules\ValidBase64Image;
 use App\User;
 use App\Category;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Validator;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\Constants;
@@ -25,24 +26,21 @@ class BooksController extends Controller
     }
 
     /**
-     * Pass data for publishing a new book
+     * Store a new book in the library
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $data = $request->only(['title', 'description', 'image', 'category_id']);
         $validator = $this->getValidator($data);
 
         if ($validator->fails())
-            return response()->json(['message' =>  Constants::VALIDATION_ERROR,'data' => $validator->errors()], Constants::STATUS_BAD_REQUEST);
-
-        if (!empty($errors)) {
-            return response()->json(['message' => Constants::VALIDATION_ERROR, 'data' => $errors], Constants::STATUS_BAD_REQUEST);
-        }
+            return response()->json(['message' =>  Constants::VALIDATION_ERROR,'data' => $validator->errors()], Response::HTTP_BAD_REQUEST);
 
         if (Category::find(request('category_id')) === null)
-            return response()->json(['message' => Constants::VALIDATION_ERROR, 'data' => ['category_id' => 'This category does not belong to our database!']], Constants::STATUS_BAD_REQUEST);
+            return response()->json(['message' => Constants::VALIDATION_ERROR, 'data' => ['category_id' => 'This category does not belong to our database!']], Response::HTTP_BAD_REQUEST);
 
         $extension = explode('/', explode(';', explode(",", $data['image'])[0])[0])[1];
         $imageName = md5(time()). '.' . $extension;
@@ -52,10 +50,10 @@ class BooksController extends Controller
         $data['image'] = $imageName;
 
         if (!Book::create($data)) {
-            return response()->json(['message' => Constants::RESOURCE_NOT_SAVED], Constants::STATUS_OK);
+            return response()->json(['message' => Constants::RESOURCE_NOT_SAVED],  Response::HTTP_NO_CONTENT);
         }
 
-        return response()->json(['message' => Constants::RESOURCE_SAVED], Constants::STATUS_OBJECT_CREATED);
+        return response()->json(['message' => Constants::RESOURCE_SAVED], Response::HTTP_CREATED);
     }
 
     /**

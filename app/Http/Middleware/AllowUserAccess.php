@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Constants;
 use Closure;
+use Symfony\Component\HttpFoundation\Response;
 
 class AllowUserAccess
 {
@@ -17,7 +18,7 @@ class AllowUserAccess
     public function handle($request, Closure $next)
     {
         if (auth()->user() && auth()->user()->isReader()) {
-            return response()->json(['message' => Constants::ACCESS_DENIED], Constants::STATUS_OK);
+            return response()->json(['message' => Constants::ACCESS_DENIED], Response::HTTP_OK);
         }
 
         return $next($request);
